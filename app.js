@@ -3,9 +3,9 @@ const template=document.querySelector('#template');
 const fragment=document.createDocumentFragment();
 const btnBotones=document.querySelectorAll('.card .btn');
 
-const carritoObjeto={
+const carritoObjeto=[
 
-};
+];
 const agregarAlCarrito=(e)=>{
 console.log(e.target.dataset.fruta);//id
 
@@ -14,19 +14,30 @@ const producto={
     id:e.target.dataset.fruta,
     cantidad:1
 };
-if(carritoObjeto.hasOwnProperty(producto.titulo)){
-    producto.cantidad=carritoObjeto[producto.titulo].cantidad +1
-}
+const index= carritoObjeto.findIndex(
+(item)=>item.id===producto.id
+);
 
-carritoObjeto[producto.titulo]=producto
-// console.log(carritoObjeto);
-pintarCarrito(producto)
+console.log(index);
+
+if(index=== -1){
+    carritoObjeto.push(producto);
+}else{
+    carritoObjeto[index].cantidad ++
+}
+console.log(carritoObjeto)
+
+// carritoObjeto[producto.titulo]=producto
+// // console.log(carritoObjeto);
+
+pintarCarrito(carritoObjeto)
+
 };
 
-const pintarCarrito=(producto)=>{
+const pintarCarrito=(array)=>{
     carrito.textContent="";
     // console.log('pintar carrito',producto)
-    Object.values(carritoObjeto).forEach(item=>{
+   array.forEach(item=>{
         const clone = template.content.firstElementChild.cloneNode(true)
         clone.querySelector('.lead').textContent=item.titulo
         clone.querySelector('.badge').textContent=item.cantidad
